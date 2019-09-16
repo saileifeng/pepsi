@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package pb;
+
+import "goods.proto";
+
+
+
+//req->用户编号，[{商品编号，商品数量}]
+message BuyGoodsRequest {
+    int64 userID = 1;
+    repeated GoodsInfo goodsInfos = 2;
+}
+//resp->用户编号，订单编号，[{商品编号，商品数量，商品单价}]，商品总价
+message BuyGoodsResponse {
+    int64 orderID = 1;
+    int64 userID = 2;
+    repeated GoodsInfo goodsInfos = 3;
+    int64 totalPrice = 4;
+}
+
+//购买商品服务
+service BuyService {
+    //生成购买订单
+    rpc BuyGoods (BuyGoodsRequest) returns (BuyGoodsResponse);
+}

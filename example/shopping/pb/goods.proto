@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package pb;
+
+
+//商品信息
+message GoodsInfo{
+    //商品编号
+    int64 goodsID = 1;
+    //商品数量
+    int64 count = 2;
+    //商品单价
+    int64 unitPrice = 3;
+}
+
+//购买商品
+message GetGoodsRequest{
+    repeated GoodsInfo goodsInfos = 1;
+
+}
+
+message GetGoodsResponse{
+    repeated GoodsInfo goodsInfos = 1;
+    int64 totalPrice = 2;
+}
+
+//购买商品服务
+service GoodsService {
+    //生成购买订单
+    rpc GetGoods (GetGoodsRequest) returns (GetGoodsResponse);
+}

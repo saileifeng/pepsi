@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package pb;
+
+import "goods.proto";
+
+//创建订单信息
+message CreateOrderInfoRequest{
+    repeated GoodsInfo goodsInfos = 1;
+    int64 totalPrice = 2;
+    int64 userID = 3;
+}
+
+message CreateOrderInfoResponse{
+    int64 orderID = 1;
+}
+
+//订单服务
+service OrderService{
+    //创建订单
+    rpc CreateOrder(CreateOrderInfoRequest) returns (CreateOrderInfoResponse);
+}
