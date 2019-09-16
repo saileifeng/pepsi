@@ -48,8 +48,8 @@ func (bgs *BuyGoodsService)BuyGoods(ctx context.Context, req *pb.BuyGoodsRequest
 
 func main() {
 	r := consul.NewRegister(consulAddr,serviceName,port)
-	goodsCC := consul.NewClietnConn(consulAddr,name.SRV_GOODS)
-	oderCC := consul.NewClietnConn(consulAddr,name.SRV_ORDER)
+	goodsCC := consul.NewClietnConn(consulAddr,name.SrvGoods)
+	oderCC := consul.NewClietnConn(consulAddr,name.SrvOrder)
 	//注册购物服务
 	pb.RegisterBuyServiceServer(r.Server,&BuyGoodsService{GoodsCC:goodsCC,OderCC:oderCC})
 
