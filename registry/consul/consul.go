@@ -15,7 +15,7 @@ import (
 	"strings"
 	"syscall"
 )
-
+//NewClietnConn 创建客户端
 func NewClietnConn(consulAddr,serviceName string) *grpc.ClientConn {
 	schema, err := resolver.StartConsulResolver(consulAddr, serviceName)
 	if err != nil {
@@ -30,15 +30,7 @@ func NewClietnConn(consulAddr,serviceName string) *grpc.ClientConn {
 	return conn
 }
 
-func ShutDownHook(f func())  {
-	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL, syscall.SIGHUP, syscall.SIGQUIT)
-	<-quit
-	//log.Println("ShutDownHook ....")
-	f()
-}
-
-
+//Registry 服务注册自定义结构体
 type Registry struct {
 	consulAddr,service string
 	port int
@@ -46,7 +38,7 @@ type Registry struct {
 	Server *grpc.Server
 	register *register.ConsulRegister
 }
-
+//NewRegister 创建新的服务注册
 func NewRegister(consulAddr,service string,port int) *Registry {
 	listener, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%v",port))
 	if err != nil {
@@ -68,7 +60,7 @@ func NewRegister(consulAddr,service string,port int) *Registry {
 
 	return &Registry{consulAddr:consulAddr,service:service,port:port,listener:listener,Server:serv,register:nr}
 }
-
+//Run 启动
 func (r *Registry)Run()  {
 	//server hook
 	go func() {

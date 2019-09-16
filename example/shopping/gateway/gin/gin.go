@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/saileifeng/pepsi/example/shopping/gateway/gin/controllers"
 	"github.com/saileifeng/pepsi/example/shopping/name"
+	"github.com/saileifeng/pepsi/example/shopping/utils"
 	"github.com/saileifeng/pepsi/registry/consul"
 	"log"
 	"net/http"
@@ -20,7 +21,7 @@ func main() {
 	})
 
 	//cc := consul.NewClietnConn("127.0.0.1:8500","buy")
-	buy := &controllers.BuyGoodsControllers{CC:consul.NewClietnConn("127.0.0.1:8500",name.API_BUY)}
+	buy := &controllers.BuyGoodsControllers{CC:consul.NewClietnConn("127.0.0.1:8500",name.APIBuy)}
 
 
 	//处理购物
@@ -32,7 +33,7 @@ func main() {
 			panic(err)
 		}
 	}()
-	consul.ShutDownHook(func() {
+	utils.ShutDownHook(func() {
 		log.Println("server stop")
 	})
 }

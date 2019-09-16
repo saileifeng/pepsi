@@ -12,13 +12,17 @@ import (
 
 var consulAddr = "127.0.0.1:8500"
 var port = 0
-var ServiceName = name.API_BUY
+var serviceName = name.APIBuy
 
+//BuyGoodsService 购物服务
 type BuyGoodsService struct {
+	//商品服务
 	GoodsCC *grpc.ClientConn
+	//订单服务
 	OderCC *grpc.ClientConn
+
 }
-//购买商品生成订单
+//BuyGoods 购买商品生成订单
 func (bgs *BuyGoodsService)BuyGoods(ctx context.Context, req *pb.BuyGoodsRequest) (*pb.BuyGoodsResponse, error)  {
 	log.Println("BuyGoods :",req)
 	//从货架上拿到物品
@@ -43,7 +47,7 @@ func (bgs *BuyGoodsService)BuyGoods(ctx context.Context, req *pb.BuyGoodsRequest
 
 
 func main() {
-	r := consul.NewRegister(consulAddr,ServiceName,port)
+	r := consul.NewRegister(consulAddr,serviceName,port)
 	goodsCC := consul.NewClietnConn(consulAddr,name.SRV_GOODS)
 	oderCC := consul.NewClietnConn(consulAddr,name.SRV_ORDER)
 	//注册购物服务

@@ -10,12 +10,12 @@ import (
 
 var consulAddr = "127.0.0.1:8500"
 var port = 0
-var serviceName = name.SRV_GOODS
-
+var serviceName = name.SrvGoods
+//GoodsService ...
 type GoodsService struct {
 
 }
-
+//GetGoods 处理购买物品请求
 func (gs *GoodsService)GetGoods(ctx context.Context, req *pb.GetGoodsRequest) (*pb.GetGoodsResponse, error)  {
 	log.Println("GetGoods :",req)
 	total := int64(0)

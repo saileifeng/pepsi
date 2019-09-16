@@ -9,11 +9,11 @@ import (
 	"net/http"
 	"time"
 )
-
+//BuyGoodsControllers ...
 type BuyGoodsControllers struct {
 	CC *grpc.ClientConn
 }
-//购买商品服务
+//BuyGoods 购买商品服务
 func (bgc *BuyGoodsControllers)BuyGoods(ctx *gin.Context)  {
 	obj := &pb.BuyGoodsRequest{}
 	//解析为json结构体
@@ -26,8 +26,8 @@ func (bgc *BuyGoodsControllers)BuyGoods(ctx *gin.Context)  {
 	//请求购买服务生成订单信息
 	resp,err := bc.BuyGoods(context,obj)
 	if err != nil {
-		ctx.JSON(http.StatusOK,&view_models.ResultInfo{Code:1,Data:&err})
+		ctx.JSON(http.StatusOK,&viewmodels.ResultInfo{Code:1,Data:&err})
 		return
 	}
-	ctx.JSON(http.StatusOK,&view_models.ResultInfo{Code:0,Data:resp})
+	ctx.JSON(http.StatusOK,&viewmodels.ResultInfo{Code:0,Data:resp})
 }
