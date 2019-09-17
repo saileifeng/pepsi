@@ -33,6 +33,7 @@ func main() {
 			panic(err)
 		}
 	}()
+
 	utils.ShutDownHook(func() {
 		log.Println("server stop")
 	})
