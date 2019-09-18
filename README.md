@@ -39,4 +39,15 @@ srv:
 test:
 
     curl http://127.0.0.1:8080/shopping/v1/buyGoods -X POST -H "Content-Type:application/json" -d '{"userID":89757,"goodsInfos":[{"goodsID":1,"count":2},{"goodsID":2,"count":3}]}'
- 
+
+### plan
+
+* [x] 基于grpc的方式实现consul的服务注册与发现 
+* [ ] 基于构建好的服务注册发现编写购物demo
+    * [x] 实现简单的购物demo
+    * [x] 增加本地限流与熔断保护机制
+    * [ ] 封装成docker镜像
+    * [ ] 增加分布式事务
+    * [ ] 增加mysql存储商品，redis缓存
+    * [ ] 限流与熔断保护数据可动态配置调整
+    
