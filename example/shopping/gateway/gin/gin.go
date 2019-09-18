@@ -8,8 +8,10 @@ import (
 	"github.com/saileifeng/pepsi/example/shopping/name"
 	"github.com/saileifeng/pepsi/example/shopping/utils"
 	"github.com/saileifeng/pepsi/registry/consul"
+	"golang.org/x/time/rate"
 	"log"
 	"net/http"
+	"time"
 )
 
 var consulAddr  = "127.0.0.1:8500"
@@ -27,7 +29,9 @@ func main() {
 	})
 
 	//cc := consul.NewClietnConn("127.0.0.1:8500","buy")
-	buy := &controllers.BuyGoodsControllers{CC: consul.NewClietnConn(consulAddr, name.APIBuy)}
+	//创建限流器 初始容量为15，每秒产生一个令牌
+	limit := rate.NewLimiter(rate.Every(time.Second), 15)
+	buy := &controllers.BuyGoodsControllers{CC: consul.NewClietnConn(consulAddr, name.APIBuy),Limit:limit}
 
 	//处理购物
 	engine.POST("/shopping/v1/buyGoods", buy.BuyGoods)
