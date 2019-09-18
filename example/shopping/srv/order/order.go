@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"github.com/saileifeng/pepsi/example/shopping/name"
 	"github.com/saileifeng/pepsi/example/shopping/pb"
 	"github.com/saileifeng/pepsi/registry/consul"
@@ -24,6 +25,8 @@ func (os *OrderService) CreateOrder(ctx context.Context, req *pb.CreateOrderInfo
 }
 
 func main() {
+	flag.StringVar(&consulAddr, "registry_address", "127.0.0.1:8500", "registry address")
+	flag.Parse()
 	r := consul.NewRegister(consulAddr, serviceName, port)
 	pb.RegisterOrderServiceServer(r.Server, &OrderService{})
 	r.Run()

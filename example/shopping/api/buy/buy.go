@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"flag"
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/saileifeng/pepsi/example/shopping/name"
 	"github.com/saileifeng/pepsi/example/shopping/pb"
@@ -74,6 +75,8 @@ func (bgs *BuyGoodsService) BuyGoods(ctx context.Context, req *pb.BuyGoodsReques
 }
 
 func main() {
+	flag.StringVar(&consulAddr, "registry_address", "127.0.0.1:8500", "registry address")
+	flag.Parse()
 	r := consul.NewRegister(consulAddr, serviceName, port)
 
 	//创建限流器 初始容量为10，每秒产生一个令牌

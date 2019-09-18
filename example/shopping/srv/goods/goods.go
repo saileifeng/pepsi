@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"github.com/saileifeng/pepsi/example/shopping/name"
 	"github.com/saileifeng/pepsi/example/shopping/pb"
 	"github.com/saileifeng/pepsi/registry/consul"
@@ -28,6 +29,8 @@ func (gs *GoodsService) GetGoods(ctx context.Context, req *pb.GetGoodsRequest) (
 }
 
 func main() {
+	flag.StringVar(&consulAddr, "registry_address", "127.0.0.1:8500", "registry address")
+	flag.Parse()
 	r := consul.NewRegister(consulAddr, serviceName, port)
 	//consul.NewClietnConn(consulAddr,serviceName)
 	pb.RegisterGoodsServiceServer(r.Server, &GoodsService{})
