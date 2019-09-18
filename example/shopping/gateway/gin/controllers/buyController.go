@@ -7,7 +7,6 @@ import (
 	"github.com/saileifeng/pepsi/example/shopping/pb"
 	"google.golang.org/grpc"
 	"net/http"
-	"time"
 )
 //BuyGoodsControllers ...
 type BuyGoodsControllers struct {
@@ -21,12 +20,12 @@ func (bgc *BuyGoodsControllers)BuyGoods(ctx *gin.Context)  {
 	ctx.BindJSON(obj)
 	bc := pb.NewBuyServiceClient(bgc.CC)
 
-	context, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+	//context, cancel := context.WithTimeout(context.Background(), time.Second)
+	//defer cancel()
 	//请求购买服务生成订单信息
-	resp,err := bc.BuyGoods(context,obj)
+	resp,err := bc.BuyGoods(context.Background(),obj)
 	if err != nil {
-		ctx.JSON(http.StatusOK,&viewmodels.ResultInfo{Code:1,Data:&err})
+		ctx.JSON(http.StatusBadRequest,&viewmodels.ResultInfo{Code:1,Data:&err})
 		return
 	}
 	ctx.JSON(http.StatusOK,&viewmodels.ResultInfo{Code:0,Data:resp})
