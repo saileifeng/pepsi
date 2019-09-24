@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/saileifeng/pepsi/example/shopping/common/jaeger"
 	"github.com/saileifeng/pepsi/example/shopping/gateway/gin/controllers"
 	"github.com/saileifeng/pepsi/example/shopping/name"
 	"github.com/saileifeng/pepsi/example/shopping/utils"
@@ -21,7 +22,12 @@ func main() {
 	flag.StringVar(&consulAddr, "registry_address", "127.0.0.1:8500", "registry address")
 	flag.IntVar(&port,"server_port",8080,"server port")
 	flag.Parse()
-
+	//初始化jeager
+	_,closer,_:= jaeger.InitJaeger()
+	defer func() {
+		err := closer.Close()
+		log.Println("close jeager : ",err)
+	}()
 	engine := gin.Default()
 	gin.SetMode("debug")
 	engine.GET("/ping", func(context *gin.Context) {

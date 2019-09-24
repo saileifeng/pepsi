@@ -22,7 +22,7 @@ import (
 func NewClietnConn(consulAddr,serviceName string) *grpc.ClientConn {
 	schema, err := resolver.StartConsulResolver(consulAddr, serviceName)
 	log.Println("NewClietnConn schema :",schema)
-	//consul集群在未完成选举的时候需要再次重试创建,这种问题似乎出现在低版本的consul
+	//consul集群在未完成选举的时候会创建失败,需要再次重试创建,这种问题似乎出现在低版本的consul
 	for i := 0;i<10;i++ {
 		if err!=nil {
 			time.Sleep(time.Second)
