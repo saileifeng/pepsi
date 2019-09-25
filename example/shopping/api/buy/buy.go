@@ -96,11 +96,11 @@ func main() {
 	flag.StringVar(&consulAddr, "registry_address", "127.0.0.1:8500", "registry address")
 	flag.Parse()
 
-	_,closer,_:= jaeger.InitJaeger()
-	defer func() {
-		err := closer.Close()
-		log.Println("close jeager : ",err)
-	}()
+	jaeger.InitJaeger()
+	//defer func() {
+	//	err := closer.Close()
+	//	log.Println("close jeager : ",err)
+	//}()
 
 	r := consul.NewRegister(consulAddr, serviceName, port)
 
